@@ -7,6 +7,9 @@ const config = JSON.parse(fs.readFileSync('./config.json'));
 
 config.redirectUriObject = new URL(config.redirectUri);
 
+const userViewerRequestHandler = config.viewerRequestHandler ? require('./viewer-request-handler.js') : null;
+const userViewerResponseHandler = config.viewerResponseHandler ? require('./viewer-response-handler.js') : null;
+
 const jwkSet = {};
 
 config.jwks.keys.forEach(function(key) {
@@ -146,7 +149,7 @@ async function refreshToken(token) {
     }
 }
 
-async function viewerRequestHandler(request) {
+async function viewerRequestHandler(request, event) {
     const tokenData = getTokenFromCookie(request.headers.cookie);
 
     let token = null;
@@ -233,6 +236,14 @@ async function viewerRequestHandler(request) {
         setTokenIntoCookie(request.headers['set-cookie'], "", null);
     }
 
+    if (userViewerRequestHandler) {
+        if (userViewerRequestHandler.constructor.name === 'AsyncFunction') {
+            request = await userViewerRequestHandler(event, request);
+        } else {
+            request = userViewerRequestHandler(event, request);
+        }
+    }
+
     return request;
 }
 
@@ -251,11 +262,34 @@ async function viewerResponseHandler(request, response) {
 exports.handler = async (event) => {
     const request = event.Records[0].cf.request;
     const response = event.Records[0].cf.response;
+    const eventType = event.Records[0].cf.config.eventType;
 
-    switch(event.Records[0].cf.config.eventType) {
+    let res = null;
+
+    switch(eventType) {
     case 'viewer-request':
-        return await viewerRequestHandler(request);
+        res = await viewerRequestHandler(request, event);
+        if (userViewerRequestHandler) {
+            if (userViewerRequestHandler.constructor.name === 'AsyncFunction') {
+                res = await userViewerRequestHandler(event, res);
+            } else {
+                res = userViewerRequestHandler(event, res);
+            }
+        }
+        break;
     case 'viewer-response':
-        return await viewerResponseHandler(request, response);
+        res = await viewerResponseHandler(request, response, event);
+        if (userViewerResponseHandler) {
+            if (userViewerResponseHandler.constructor.name === 'AsyncFunction') {
+                res = await userViewerResponseHandler(event, res);
+            } else {
+                res = userViewerResponseHandler(event, res);
+            }
+        }
+        break;
+    default:
+        throw new Error(`unknown event type ${eventType}`);
     }
+
+    return res;
 }

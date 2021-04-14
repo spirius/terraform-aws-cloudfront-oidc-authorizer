@@ -16,6 +16,9 @@ locals {
     authorizationEndpoint = var.authorization_endpoint != null ? var.authorization_endpoint : local.well_known_config.authorization_endpoint
 
     jwks = jsondecode(data.http.jwks.body)
+
+    viewerRequestHandler  = var.viewer_request_handler != null
+    viewerResponseHandler = var.viewer_response_handler != null
   }
 
   archive_file_name = (
@@ -42,6 +45,22 @@ data "archive_file" "lambda_code" {
   source {
     filename = "config.json"
     content  = jsonencode(local.config)
+  }
+
+  dynamic "source" {
+    for_each = merge(
+      var.viewer_request_handler == null ? {} : {
+        viewer-request-handler = var.viewer_request_handler
+      },
+      var.viewer_response_handler == null ? {} : {
+        viewer-response-handler = var.viewer_response_handler
+      },
+    )
+
+    content {
+      filename = "${source.key}.js"
+      content  = source.value
+    }
   }
 }
 

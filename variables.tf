@@ -62,3 +62,13 @@ variable "lambda_code_archive_file" {
   description = "The file path where the lambda code archive file will be created. Default is $${path.root}/$${function_name}-lambda.zip."
   default     = null
 }
+
+variable "viewer_request_handler" {
+  description = "Additional JavaScript code to process the viewer-request event. The code should export a function (or async function) with `module.exports = (event, res) => ...`."
+  default     = null
+}
+
+variable "viewer_response_handler" {
+  description = "Additional JavaScript code to process the viewer-resposne event. The code should export a function (or async function) with `module.exports = (event, res) => ...`."
+  default     = null
+}
