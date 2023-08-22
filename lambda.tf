@@ -15,7 +15,7 @@ locals {
     tokenEndpoint         = var.token_endpoint != null ? var.token_endpoint : local.well_known_config.token_endpoint
     authorizationEndpoint = var.authorization_endpoint != null ? var.authorization_endpoint : local.well_known_config.authorization_endpoint
 
-    jwks = jsondecode(data.http.jwks.body)
+    jwks = jsondecode(data.http.jwks.response_body)
 
     viewerRequestHandler  = var.viewer_request_handler != null
     viewerResponseHandler = var.viewer_response_handler != null

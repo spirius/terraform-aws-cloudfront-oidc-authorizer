@@ -1,3 +1,6 @@
+## v2.0.1 (August 22, 2023)
+ * Fix deprecated http provider attribute
+
 ## v2.0.0 (August 22, 2023)
  * Upgrade spirius/iam-role module
  * Add provider constraints
