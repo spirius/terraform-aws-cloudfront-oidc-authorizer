@@ -66,7 +66,7 @@ data "archive_file" "lambda_code" {
 
 module "lambda_role" {
   source  = "spirius/iam-role/aws"
-  version = "~> 1.0"
+  version = "~> 2"
 
   name                 = var.role_name != null ? var.role_name : "${var.function_name}-lambda"
   assume_role_services = ["lambda.amazonaws.com", "edgelambda.amazonaws.com"]

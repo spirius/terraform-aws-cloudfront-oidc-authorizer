@@ -1,3 +1,7 @@
+## v2.0.0 (August 22, 2023)
+ * Upgrade spirius/iam-role module
+ * Add provider constraints
+
 ## v1.0.1 (April 14, 2021)
  * Support user-defined handlers for `viewer-request` and `viewer-response` events.
 

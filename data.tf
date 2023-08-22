@@ -7,7 +7,7 @@ data "http" "well_known_config" {
 }
 
 locals {
-  well_known_config = jsondecode(data.http.well_known_config.body)
+  well_known_config = jsondecode(data.http.well_known_config.response_body)
 }
 
 data "http" "jwks" {
