@@ -1,3 +1,6 @@
+## v2.0.2 (August 22, 2023)
+ * Use node18.x runtime
+
 ## v2.0.1 (August 22, 2023)
  * Fix deprecated http provider attribute
 
