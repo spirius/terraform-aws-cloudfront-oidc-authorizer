@@ -225,7 +225,9 @@ async function viewerRequestHandler(request, event) {
         }
     }
 
-    if (token && (!token.access_token || !verifyToken(token.access_token))) {
+    tokenKey = config.verifyIdToken ? 'id_token' : 'access_token'
+
+    if (token && (!token[tokenKey] || !verifyToken(token[tokenKey]))) {
         request = {
             status: '401',
             statusDescription: 'Forbidden',
