@@ -10,6 +10,7 @@ locals {
     clientId     = var.client_id
     clientSecret = var.client_secret
     redirectUri  = var.redirect_uri
+    scope        = join(" ", var.scopes)
 
     issuer                = var.issuer
     tokenEndpoint         = var.token_endpoint != null ? var.token_endpoint : local.well_known_config.token_endpoint
