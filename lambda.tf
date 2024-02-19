@@ -85,4 +85,11 @@ resource "aws_lambda_function" "authorizer" {
   timeout     = 5
   memory_size = 128
   publish     = true
+
+  # https://github.com/hashicorp/terraform-provider-aws/issues/1721
+  skip_destroy = true
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
