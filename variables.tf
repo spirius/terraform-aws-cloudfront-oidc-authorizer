@@ -49,6 +49,11 @@ variable "redirect_uri" {
   description = "OIDC redirect URI."
 }
 
+variable "scopes" {
+  description = "OIDC scopes."
+  default     = ["openid"]
+}
+
 variable "function_name" {
   description = "The lambda function name."
 }
