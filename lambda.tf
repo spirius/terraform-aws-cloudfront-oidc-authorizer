@@ -81,7 +81,7 @@ resource "aws_lambda_function" "authorizer" {
   role          = module.lambda_role.role.arn
   handler       = "index.handler"
 
-  runtime     = "nodejs18.x"
+  runtime     = "nodejs20.x"
   timeout     = 5
   memory_size = 128
   publish     = true
