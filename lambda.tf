@@ -11,6 +11,8 @@ locals {
     clientSecret = var.client_secret
     redirectUri  = var.redirect_uri
 
+    verifyIdToken = var.verify_id_token
+
     issuer                = var.issuer
     tokenEndpoint         = var.token_endpoint != null ? var.token_endpoint : local.well_known_config.token_endpoint
     authorizationEndpoint = var.authorization_endpoint != null ? var.authorization_endpoint : local.well_known_config.authorization_endpoint

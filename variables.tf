@@ -49,6 +49,11 @@ variable "redirect_uri" {
   description = "OIDC redirect URI."
 }
 
+variable "verify_id_token" {
+  description = "Validate the id_token instead of the access_token"
+  default = false
+}
+
 variable "function_name" {
   description = "The lambda function name."
 }
