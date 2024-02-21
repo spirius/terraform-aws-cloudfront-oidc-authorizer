@@ -225,7 +225,7 @@ async function viewerRequestHandler(request, event) {
         }
     }
 
-    tokenKey = config.verifyIdToken ? 'id_token' : 'access_token'
+    const tokenKey = config.verifyIdToken ? 'id_token' : 'access_token';
 
     if (token && (!token[tokenKey] || !verifyToken(token[tokenKey]))) {
         request = {
